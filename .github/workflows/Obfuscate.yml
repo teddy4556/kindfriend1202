@@ -1,8 +1,8 @@
-名字: Build Obfuscate BPB Panel
+name: Build Obfuscate BPB Panel
 
 on:
   push:
-    分支:
+    branches:
       - main
   schedule:
     - cron: "0 1 * * *"
@@ -15,23 +15,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - 名字: Check out the code
+      - name: Check out the code
         uses: actions/checkout@v4
 
-      - 名字: Set up Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "latest"
 
-      - 名字: Install dependencies
+      - name: Install dependencies
         run: |
           npm install -g javascript-obfuscator
 
-      - 名字: Clone BPB workjs
+      - name: Clone BPB workjs
         run: |
           wget -O origin.js https://raw.githubusercontent.com/bia-pain-bache/BPB-Worker-Panel/refs/heads/main/build/unobfuscated-worker.js
 
-      - 名字: Obfuscate BPB worker js
+      - name: Obfuscate BPB worker js
         run: |
           javascript-obfuscator origin.js --output _worker.js \
           --compact true \
@@ -44,10 +44,10 @@ jobs:
           --self-defending false \
           --simplify true
 
-      - 名字: 提交更改
+      - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          分支: main
+          branch: main
           commit_message: ':arrow_up: update latest bpb panel'
           commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
           push_options: '--set-upstream'
